@@ -1,7 +1,6 @@
 function [ds, ext] = eqns2(t, s)
 global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
     
-    % State Variables 
     pJ = s(1); 
     pCR = s(2); 
     qSF = s(3);
@@ -10,6 +9,7 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     pTR = s(6);
     qTF = s(7);
     qTR = s(8); 
+
 
     % Effort Source 
     se1 = M*g;
