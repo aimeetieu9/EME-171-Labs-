@@ -27,9 +27,9 @@ p2_0 = M*V0;  % initial momentum of top mass
 q6_0 = (M * g) / K;  % initial suspension displacement (equilibrium)
 p8_0 = Mu*Vu0;  % initial momentum of tire mass 
 q11_0 = ((M + Mu) * g) / Kt;  % initial tire displacement (equilibrium)
-initial = [p2_0, q6_0, p8_0, q11_0]; % ????? idk if this is right. 
+initial = [p2_0, q6_0, p8_0, q11_0]; 
 
-tspan = linspace(0,4,2001); %CHANGE!!!!!!!
+tspan = linspace(0,4,2001); 
 
 [t, s] = ode45(@lab2_eqns,tspan,initial);
 
