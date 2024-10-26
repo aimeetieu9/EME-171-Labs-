@@ -37,9 +37,13 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     % Equations of Motion (EOM) 
     pJ_dot = (a*((qSF*kSF) + (bSF*((pTF/mTF)-(pCR/mCR)-(a*pJ/jCR))))) - (b*((qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) + (b*pJ/jCR))))); 
     pCR_dot = (-mCR*g) + (qSF*kSF) + (bSF*((pTF/mTF) - (pCR/mCR) -(a*pJ/jCR))) + (qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) +(b*pJ/jCR)));
-    
-    
-    
+    qSF_dot = pTF/mTF - pCR/mCR - a*pJ/jCR; %is 'a' the same as 'A' ????
+    qSR_dot = pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
+    pTF_dot = qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
+    pTR_dot = qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
+    qTF_dot = vFI - pTF/mTF; %add in vFI
+    qTR_dot = vRI - pTR/mTR; %add in vRI
+
     droad_dot = Vi;
 
     % External forces

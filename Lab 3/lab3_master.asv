@@ -27,21 +27,15 @@ g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; 
 
 % INITIAL CONDITIONS CALCULATION (set derivatives = 0):
-    
+    Initialeqns = [,] 
     eqn1 = 0 == (a*((qSF*kSF) + (bSF*((pTF/mTF)-(pCR/mCR)-(a*pJ/jCR))))) - (b*((qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) + (b*pJ/jCR))))); 
     eqn2 = 0 == (-mCR*g) + (qSF*kSF) + (bSF*((pTF/mTF) - (pCR/mCR) -(a*pJ/jCR))) + (qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) +(b*pJ/jCR)));
-    eqn3 = 0 == pTF/mTF - pCR/mCR - a*pJ/jCR; %is 'a' the same as 'A' ????
-    eqn4 = 0 == pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
-    eqn5 = 0 == qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
-    eqn6 = 0 == qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
-    eqn7 = 0 == vFI - pTF/mTF; %add in vFI
-    eqn8 = 0 == vRI - pTR/mTR; %add in vRI
-
-    Initialeqns = [eqn1,eqn2,eqn3,eqn4,eqn5,eqn6,eqn7,eqn8];
-    InitialVar = [pJ,pCR,qSF,qSR,pTF,pTR,qTF,qTR];
-
-    sol = solve(Initialeqns,InitialVar);
-    %CHECKKKKK
+    0 == pTF/mTF - pCR/mCR - a*pJ/jCR; %is 'a' the same as 'A' ????
+    0 == pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
+    0 = qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
+    0 = qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
+    0 = vFI - pTF/mTF; %add in vFI
+    0 = vRI - pTR/mTR; %add in vRI
 
 % Initial conditions
 V0 = 0;
