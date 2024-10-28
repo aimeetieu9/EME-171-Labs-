@@ -21,16 +21,18 @@ mTR = 20;
 kTF = 30000; 
 kTR = 40000;
 lWB = 1.6; 
-A = 
+A = %bump height
 L = 0.5; 
 g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; 
 
 % INITIAL CONDITIONS CALCULATION (set derivatives = 0):
+% for standard conditions, a = lCG_standard, b = lWB - lCG_standard
+% for forward conditions, a = lCG_forward, b = lWB - lCG_forward
     
     eqn1 = 0 == (a*((qSF*kSF) + (bSF*((pTF/mTF)-(pCR/mCR)-(a*pJ/jCR))))) - (b*((qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) + (b*pJ/jCR))))); 
     eqn2 = 0 == (-mCR*g) + (qSF*kSF) + (bSF*((pTF/mTF) - (pCR/mCR) -(a*pJ/jCR))) + (qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) +(b*pJ/jCR)));
-    eqn3 = 0 == pTF/mTF - pCR/mCR - a*pJ/jCR; %is 'a' the same as 'A' ????
+    eqn3 = 0 == pTF/mTF - pCR/mCR - a*pJ/jCR; %a is dependent on forward or standard, add parameter (not the same as A, bump height)
     eqn4 = 0 == pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
     eqn5 = 0 == qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
     eqn6 = 0 == qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
