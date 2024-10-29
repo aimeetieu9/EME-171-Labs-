@@ -4,8 +4,8 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     % State Variables (lab 3)
     pJ = s(1); 
     pCR = s(2); 
-    qSF = s(3);
-    qSR = s(4);
+    qSF = s(3); thisssss
+    qSR = s(4); thissss
     pTF = s(5);
     pTR = s(6);
     qTF = s(7);

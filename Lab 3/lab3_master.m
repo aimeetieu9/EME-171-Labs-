@@ -3,6 +3,7 @@ close all;
 clc;
 global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
 
+
 %parameters
 amp = 0.1; %m/s, velocity input (road profile)
 
@@ -21,7 +22,7 @@ mTR = 20;
 kTF = 30000; 
 kTR = 40000;
 lWB = 1.6; 
-A = 1;%bump height
+A = 0.1;%bump height CHANGE!!!!!!!!!!
 L = 0.5; 
 g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; 
@@ -46,13 +47,15 @@ jCR = mCR * rGY^2;
     %CHECKKKKK
 
 % Initial conditions
+b = lwb - lCG_forward;
+a = lCG_forward;
 vFI = 0; 
 vRI = 0; 
 p_J0 = 0;    
 p_cr0 = 0;  
 p_tf0 = 0;  
 p_tr0 = 0;   
-q_tf0 = (mTF * g) / kTF;
+q_tf0 =  ((mTF * g)  + (b*mCR*g) / (b+a)) / kTF;g
 q_tr0 = (mTR * g) / kTR;
 q_sf0 = (mTF * g) / kSF;
 q_sr0 = (mTR * g) / kSR;
@@ -73,9 +76,11 @@ for i = 1:length(t)
 end
 
 x = s(:,2) - q6_0; 
-
+sf_deflection = q_sf0 - s(:,3);
+sr_deflection = q_sr0 - s(:,4);
 acceleration = diff(s(:,1)) ./ diff(t) / M / g;
  
+%FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
 figure('Name','displacements','NumberTitle','off','Color','white')
 plot(t, x,'k'), grid on
 title('Suspension Deflection')
