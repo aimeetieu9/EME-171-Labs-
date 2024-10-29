@@ -11,9 +11,10 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     qTF = s(7);
     qTR = s(8); 
 
-    % Effort Source (from lab 2)
-    se1 = M*g;
-    se9 = Mu *g;
+    % Effort Source (from lab 3)
+    se_cr = mCR * g;  %gravity on cycle and rider
+    se__tf = mTF * g;  %gravity on front tire
+    se_tr = mTR * g;  %gravity on rear tire
 
     % Flow Source (lab 3)
     Vc = 10; % m/s, cycle forward velocity
@@ -75,7 +76,7 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     qTF_dot = vFI - pTF/mTF; %add in vFI
     qTR_dot = vRI - pTR/mTR; %add in vRI
 
-    droad_dot = Vi;
+    droad_dot = Vi; %lab 2
 
     % External forces
     ext(1) = B * (Vi / M); 
