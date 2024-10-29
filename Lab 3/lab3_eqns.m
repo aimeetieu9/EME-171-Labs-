@@ -1,5 +1,5 @@
 function [ds, ext] = eqns2(t, s)
-global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
+global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L A;
     
     % State Variables (lab 3)
     pJ = s(1); 

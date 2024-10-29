@@ -1,6 +1,6 @@
 %calculating max time step size (number of steps)
-function [numofsteps] = lab2_timestepcalc(starttime, endtime)
-global M K B amp Vc L A Mu Kt fn omega zeta q6_0 g maxTimeStep;
+function [numofsteps] = lab3_timestepcalc(starttime, endtime)
+global M K B amp Vc L  Mu Kt maxTimeStep vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L A;
 
     T1 = 0; %change to alter starting value of pothole
     T2 = T1 + L/(2*Vc);

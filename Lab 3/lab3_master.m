@@ -58,7 +58,10 @@ q_sf0 = (mTF * g) / kSF;
 q_sr0 = (mTR * g) / kSR;
 initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
 
-tspan = linspace(0,4,2001); %CHANGE!!!!!!!
+tspanstart = 0;
+tspanend=4;
+numofsteps = lab3_timestepcalc(tspanstart, tspanend);
+tspan = linspace(tspanstart,tspanend,numofsteps); %CHANGE!!!!!!!
 
 [t, s] = ode45(@lab3_eqns,tspan,initial);
 
