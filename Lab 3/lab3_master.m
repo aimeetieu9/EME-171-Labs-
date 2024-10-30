@@ -55,12 +55,13 @@ p_J0 = 0;
 p_cr0 = 0;  
 p_tf0 = 0;  
 p_tr0 = 0;   
-q_tf0 =  ((mTF * g)  + (b*mCR*g) / (b+a)) / kTF;g
-q_tr0 = (mTR * g) / kTR;
-q_sf0 = (mTF * g) / kSF;
-q_sr0 = (mTR * g) / kSR;
+q_tf0 =  ((mTF * g)  + (b*mCR*g) / (b+a)) / kTF;
+q_tr0 = ((mTR * g) + ((mCR*g)/((b/a) + 1))) / kTR;
+q_sf0 = (b*mCR*g) / ((b+a) * kSF);
+q_sr0 = (mCR * g) / (((b/a) + 1) * kSR);
 initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
 
+% time step
 tspanstart = 0;
 tspanend=4;
 numofsteps = lab3_timestepcalc(tspanstart, tspanend);
@@ -75,22 +76,32 @@ for i = 1:length(t)
 [ds(i,:) ext(i,:)] = lab3_eqns(t(i), s(i,:));
 end
 
-x = s(:,2) - q6_0; 
+
 sf_deflection = q_sf0 - s(:,3);
 sr_deflection = q_sr0 - s(:,4);
-acceleration = diff(s(:,1)) ./ diff(t) / M / g;
- 
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
-figure('Name','displacements','NumberTitle','off','Color','white')
-plot(t, x,'k'), grid on
+% Front and Rear Suspension Deflections 
+figure('Name','Suspension Deflection','NumberTitle','off','Color','white')
+plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,9), 'c'), grid on
 title('Suspension Deflection')
 ylabel('displacement (m)')
 xlabel('time (s)')
 
-figure('Name','velocities','NumberTitle','off','Color','white')
-plot(t(1:end-1), acceleration,'k'), grid on
-title('Mass Acceleration')
-ylabel('Acceleration (g)')
+% Heave Velocity
+v_heave = s(:,2)/mCR; 
+figure('Name','Heave Velocity','NumberTitle','off','Color','white')
+plot(t, v_heave,'k', t, s(:,9), 'k'), grid on
+title('Heave Velocity')
+ylabel('velocity (m/s)')
 xlabel('time (s)')
+
+%Pitch Angular Velocity 
+omega_velocity= s(:,1)/jCR; 
+figure('Name','Pitch Angular Velocity','NumberTitle','off','Color','white')
+plot(t, s(:,9),'k', t, omega_velocity, 'k'), grid on
+title('Heave Velocity')
+ylabel('Pitch Angular Velocity (rad/s)')
+xlabel('time (s)')
+
 
 

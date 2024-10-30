@@ -55,12 +55,13 @@ p_J0 = 0;
 p_cr0 = 0;  
 p_tf0 = 0;  
 p_tr0 = 0;   
-q_tf0 =  (mTF * g)  + b+  kTF;
-q_tr0 = (mTR * g) / kTR;
-q_sf0 = (mTF * g) / kSF;
-q_sr0 = (mTR * g) / kSR;
+q_tf0 =  ((mTF * g)  + (b*mCR*g) / (b+a)) / kTF;
+q_tr0 = ((mTR * g) + ((mCR*g)/((b/a) + 1))) / kTR;
+q_sf0 = (b*mCR*g) / ((b+a) * kSF);
+q_sr0 = (mCR * g) / (((b/a) + 1) * kSR);
 initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
 
+% time step
 tspanstart = 0;
 tspanend=4;
 numofsteps = lab3_timestepcalc(tspanstart, tspanend);
@@ -81,13 +82,13 @@ sr_deflection = q_sr0 - s(:,4);
 acceleration = diff(s(:,1)) ./ diff(t) / M / g;
  
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
-figure('Name','displacements','NumberTitle','off','Color','white')
-plot(t, x,'k'), grid on
+figure('Name','Suspension Deflection','NumberTitle','off','Color','white')
+plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,9), 'c'), grid on
 title('Suspension Deflection')
 ylabel('displacement (m)')
 xlabel('time (s)')
 
-figure('Name','velocities','NumberTitle','off','Color','white')
+figure('Name','Heave Velocities','NumberTitle','off','Color','white')
 plot(t(1:end-1), acceleration,'k'), grid on
 title('Mass Acceleration')
 ylabel('Acceleration (g)')
