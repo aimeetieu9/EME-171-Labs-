@@ -1,5 +1,5 @@
-function [ds, ext] = eqns2(t, s)
-global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L A;
+function [ds, ext] = lab3_eqns(t, s)
+global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L A a b jCR;
     
     % State Variables (lab 3)
     pJ = s(1); 
@@ -71,7 +71,7 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     % Equations of Motion (EOM) 
     pJ_dot = (a*((qSF*kSF) + (bSF*((pTF/mTF)-(pCR/mCR)-(a*pJ/jCR))))) - (b*((qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) + (b*pJ/jCR))))); 
     pCR_dot = (-mCR*g) + (qSF*kSF) + (bSF*((pTF/mTF) - (pCR/mCR) -(a*pJ/jCR))) + (qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) +(b*pJ/jCR)));
-    qSF_dot = pTF/mTF - pCR/mCR - a*pJ/jCR; %is 'a' the same as 'A' ????
+    qSF_dot = pTF/mTF - pCR/mCR - a*pJ/jCR; 
     qSR_dot = pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
     pTF_dot = qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
     pTR_dot = qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);

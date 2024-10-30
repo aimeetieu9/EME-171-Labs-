@@ -1,7 +1,7 @@
 clear all;
 close all;
 clc;
-global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
+global a b vC jCR lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
 
 
 %parameters
