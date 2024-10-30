@@ -8,24 +8,25 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
 amp = 0.1; %m/s, velocity input (road profile)
 
 %system parameters MODIFIED! 
-vC = 10; 
+vC = 10;
 lCG_standard = 0.9; 
 lCG_forward = 0.7; 
 mCR = 300; 
 rGY = 0.5; 
-kSF = 3000;
-kSR = 3500; 
+kSF = 3000; %front sus stiffness
+kSR = 3500; %rear sus stiffness
 bSF = 400; 
 bSR = 500; 
 mTF = 15; 
 mTR = 20; 
-kTF = 30000; 
-kTR = 40000;
+kTF = 30000; %front tire stiffness
+kTR = 40000; %rear tire stiffness
 lWB = 1.6; 
-A = 0.1;%bump height CHANGE!!!!!!!!!!
+A = 0.1; %bump height CHANGE!!!!!!!!!!
 L = 0.5; 
 g = 9.81; %m/s^2;
-jCR = mCR * rGY^2; 
+jCR = mCR * rGY^2; %rotational inertia
+
 
 % INITIAL CONDITIONS CALCULATION (set derivatives = 0):
 % for standard conditions, a = lCG_standard, b = lWB - lCG_standard
@@ -47,7 +48,7 @@ jCR = mCR * rGY^2;
     %CHECKKKKK
 
 % Initial conditions
-b = lwb - lCG_forward;
+b = lWB - lCG_forward;
 a = lCG_forward;
 vFI = 0; 
 vRI = 0; 
@@ -61,10 +62,33 @@ q_sf0 = (b*mCR*g) / ((b+a) * kSF);
 q_sr0 = (mCR * g) / (((b/a) + 1) * kSR);
 initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
 
-% time step
+% TIME STEP CALC
+% shortest vibration period
+T1 = 2*pi / sqrt(kSF/jCR);
+T2 = 2*pi / sqrt(kSR/jCR);
+T3 = 2*pi / sqrt(kTF/jCR);
+T4 = 2*pi / sqrt(kTR/jCR);
+Tmin = min([T1,T2,T3,T4]);
+Tmax = max([T1,T2,T3,T4]);
+%time it takes to go over 1/2 bump
+    % TAKEN FROM EQNS SCRIPT.... NEED T11
+    T1 = 0; %s, time when front tire hits first 
+    T2 = T1 + L/(2*vC); %s, front tire apex 1st 
+    T3 = T1 + L/vC; %s, front tire end first 
+    T4 = T1 + lWB/vC; %s, back tire start 1st 
+    T5 = T4 + L/(2*vC); %s, back tire apex 1st 
+    T6 = T4 + L/vC; %s, back tire end 1st & front tire start 2nd
+    T7 = T6 + L/(2*vC); %s, front tire apex 2nd
+    T8 = T6 + L/vC; %s, front tire end 2nd 
+    T9 = T6 + lWB/vC; %s, back tire start 2nd 
+    T10 = T9 + L/(2*vC); %s, back tire 2nd apex
+    T11 = T9 + L/vC; %s, back tire end 2nd
+Thalfbump = L/(2*vC);
+maxstepsize = min(Tmin/10, Thalfbump/10);
+
 tspanstart = 0;
-tspanend=4;
-numofsteps = lab3_timestepcalc(tspanstart, tspanend);
+tspanend = 3*Tmax + T11; % 3 x Tmax + time tire reaches end of second bump
+numofsteps = (tspanend-tspanstart)/maxstepsize;
 tspan = linspace(tspanstart,tspanend,numofsteps); %CHANGE!!!!!!!
 
 [t, s] = ode45(@lab3_eqns,tspan,initial);

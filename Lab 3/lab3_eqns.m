@@ -17,23 +17,25 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     se_tr = mTR * g;  %gravity on rear tire
 
     % Flow Source (lab 3)
-    Vc = 10; % m/s, cycle forward velocity
+    
     L = 0.5; % m, bump distance
     A = 0.08; % m, placeholder need to make max height before suspension deflection = 0.1m
    
+
+
     T1 = 0; %s, time when front tire hits first 
-    T2 = T1 + L/(2*Vc); %s, front tire apex 1st 
-    T3 = T1 + L/Vc; %s, front tire end first 
-    T4 = T1 + lWB/Vc; %s, back tire start 1st 
-    T5 = T4 + L/(2*Vc); %s, back tire apex 1st 
-    T6 = T4 + L/Vc; %s, back tire end 1st & front tire start 2nd
-    T7 = T6 + L/(2*Vc); %s, front tire apex 2nd
-    T8 = T6 + L/Vc; %s, front tire end 2nd 
-    T9 = T6 + lWB/Vc; %s, back tire start 2nd 
-    T10 = T9 + L/(2*Vc); %s, back tire 2nd apex
-    T11 = T9 + L/Vc; %s, back tire end 2nd
+    T2 = T1 + L/(2*vC); %s, front tire apex 1st 
+    T3 = T1 + L/vC; %s, front tire end first 
+    T4 = T1 + lWB/vC; %s, back tire start 1st 
+    T5 = T4 + L/(2*vC); %s, back tire apex 1st 
+    T6 = T4 + L/vC; %s, back tire end 1st & front tire start 2nd
+    T7 = T6 + L/(2*vC); %s, front tire apex 2nd
+    T8 = T6 + L/vC; %s, front tire end 2nd 
+    T9 = T6 + lWB/vC; %s, back tire start 2nd 
+    T10 = T9 + L/(2*vC); %s, back tire 2nd apex
+    T11 = T9 + L/vC; %s, back tire end 2nd
   
-    Vamp = 2*A*Vc/L;
+    Vamp = 2*A*vC/L;
 
    %setting vFI
     if t < T1

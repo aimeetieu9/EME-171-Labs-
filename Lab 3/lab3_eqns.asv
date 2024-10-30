@@ -4,8 +4,8 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     % State Variables (lab 3)
     pJ = s(1); 
     pCR = s(2); 
-    qSF = s(3); thisssss
-    qSR = s(4); thissss
+    qSF = s(3); 
+    qSR = s(4); 
     pTF = s(5);
     pTR = s(6);
     qTF = s(7);
@@ -20,7 +20,9 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     Vc = 10; % m/s, cycle forward velocity
     L = 0.5; % m, bump distance
     A = 0.08; % m, placeholder need to make max height before suspension deflection = 0.1m
-   
+   a = L
+
+
     T1 = 0; %s, time when front tire hits first 
     T2 = T1 + L/(2*Vc); %s, front tire apex 1st 
     T3 = T1 + L/Vc; %s, front tire end first 

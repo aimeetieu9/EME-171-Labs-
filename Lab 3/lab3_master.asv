@@ -13,19 +13,20 @@ lCG_standard = 0.9;
 lCG_forward = 0.7; 
 mCR = 300; 
 rGY = 0.5; 
-kSF = 3000;
-kSR = 3500; 
+kSF = 3000; %front sus stiffness
+kSR = 3500; %rear sus stiffness
 bSF = 400; 
 bSR = 500; 
 mTF = 15; 
 mTR = 20; 
-kTF = 30000; 
-kTR = 40000;
+kTF = 30000; %front tire stiffness
+kTR = 40000; %rear tire stiffness
 lWB = 1.6; 
-A = 0.1;%bump height CHANGE!!!!!!!!!!
+A = 0.1; %bump height CHANGE!!!!!!!!!!
 L = 0.5; 
 g = 9.81; %m/s^2;
-jCR = mCR * rGY^2; 
+jCR = mCR * rGY^2; %rotational inertia
+
 
 % INITIAL CONDITIONS CALCULATION (set derivatives = 0):
 % for standard conditions, a = lCG_standard, b = lWB - lCG_standard
@@ -47,7 +48,7 @@ jCR = mCR * rGY^2;
     %CHECKKKKK
 
 % Initial conditions
-b = lwb - lCG_forward;
+b = lWB - lCG_forward;
 a = lCG_forward;
 vFI = 0; 
 vRI = 0; 
@@ -61,10 +62,33 @@ q_sf0 = (b*mCR*g) / ((b+a) * kSF);
 q_sr0 = (mCR * g) / (((b/a) + 1) * kSR);
 initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
 
-% time step
+% TIME STEP CALC
+% shortest vibration period
+T1 = 2*pi / sqrt(kSF/jCR);
+T2 = 2*pi / sqrt(kSR/jCR);
+T3 = 2*pi / sqrt(kTF/jCR);
+T4 = 2*pi / sqrt(kTR/jCR);
+Tmin = min([T1,T2,T3,T4]);
+Tmax = max([T1,T2,T3,T4]);
+%time it takes to go over 1/2 bump
+    % TAKEN FROM EQNS SCRIPT.... NEED T11
+    T1 = 0; %s, time when front tire hits first 
+    T2 = T1 + L/(2*Vc); %s, front tire apex 1st 
+    T3 = T1 + L/Vc; %s, front tire end first 
+    T4 = T1 + lWB/Vc; %s, back tire start 1st 
+    T5 = T4 + L/(2*Vc); %s, back tire apex 1st 
+    T6 = T4 + L/Vc; %s, back tire end 1st & front tire start 2nd
+    T7 = T6 + L/(2*Vc); %s, front tire apex 2nd
+    T8 = T6 + L/Vc; %s, front tire end 2nd 
+    T9 = T6 + lWB/Vc; %s, back tire start 2nd 
+    T10 = T9 + L/(2*Vc); %s, back tire 2nd apex
+    T11 = T9 + L/Vc; %s, back tire end 2nd
+Thalfbump = L/(2*vC);
+maxstepsize = min(Tmin/10, Thalfbump/10);
+
 tspanstart = 0;
-tspanend=4;
-numofsteps = lab3_timestepcalc(tspanstart, tspanend);
+tspanend = 3*Tmax ; % 3 x Tmax + time tire reaches end of second bump NEEDS CALCULATION
+numofsteps = (tspanend-tspanstart)/maxstepsize;
 tspan = linspace(tspanstart,tspanend,numofsteps); %CHANGE!!!!!!!
 
 [t, s] = ode45(@lab3_eqns,tspan,initial);
@@ -76,22 +100,32 @@ for i = 1:length(t)
 [ds(i,:) ext(i,:)] = lab3_eqns(t(i), s(i,:));
 end
 
-x = s(:,2) - q6_0; 
+
 sf_deflection = q_sf0 - s(:,3);
 sr_deflection = q_sr0 - s(:,4);
-acceleration = diff(s(:,1)) ./ diff(t) / M / g;
- 
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
+% Front and Rear Suspension Deflections 
 figure('Name','Suspension Deflection','NumberTitle','off','Color','white')
 plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,9), 'c'), grid on
 title('Suspension Deflection')
 ylabel('displacement (m)')
 xlabel('time (s)')
 
-figure('Name','Heave Velocities','NumberTitle','off','Color','white')
-plot(t(1:end-1), acceleration,'k'), grid on
-title('Mass Acceleration')
-ylabel('Acceleration (g)')
+% Heave Velocity
+v_heave = s(:,2)/mCR; 
+figure('Name','Heave Velocity','NumberTitle','off','Color','white')
+plot(t, v_heave,'k', t, s(:,9), 'k'), grid on
+title('Heave Velocity')
+ylabel('velocity (m/s)')
 xlabel('time (s)')
+
+%Pitch Angular Velocity 
+omega_velocity= s(:,1)/jCR; 
+figure('Name','Pitch Angular Velocity','NumberTitle','off','Color','white')
+plot(t, s(:,9),'k', t, omega_velocity, 'k'), grid on
+title('Heave Velocity')
+ylabel('Pitch Angular Velocity (rad/s)')
+xlabel('time (s)')
+
 
 
