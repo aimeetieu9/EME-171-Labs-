@@ -22,7 +22,7 @@ mTR = 20;
 kTF = 30000; %front tire stiffness
 kTR = 40000; %rear tire stiffness
 lWB = 1.6; 
-A = 0.165; %bump height CHANGE!!!!!!!!!!
+A = 0.1665; %bump height CHANGE!!!!!!!!!!
 L = 0.5; 
 g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; %rotational inertia
@@ -48,8 +48,11 @@ jCR = mCR * rGY^2; %rotational inertia
     %CHECKKKKK
 
 % Initial conditions
-b = lWB - lCG_forward;
-a = lCG_forward;
+%b = lWB - lCG_forward;
+%a = lCG_forward;
+b = lWB - lCG_standard;
+a = lCG_standard;
+
 vFI = 0; 
 vRI = 0; 
 p_J0 = 0;    
@@ -64,12 +67,16 @@ initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0];
 
 % TIME STEP CALC
 % shortest vibration period
-T1 = 2*pi / sqrt(kSF/jCR);
-T2 = 2*pi / sqrt(kSR/jCR);
-T3 = 2*pi / sqrt(kTF/jCR);
-T4 = 2*pi / sqrt(kTR/jCR);
-Tmin = min([T1,T2,T3,T4]);
-Tmax = max([T1,T2,T3,T4]);
+Trw = 2*pi / sqrt((kTR)/jCR);
+Tfw = 2*pi / sqrt(kTF/jCR);
+Theave = 2*pi / sqrt((kSR+kSF)/jCR);
+Tpitch = (2*pi) / sqrt(kSR/jCR) * b^2 + (2*pi) / sqrt(kSF/jCR) * a^2;
+
+nFreq = 1/Tpitch * 2*pi; %natural frequency [rad/s]
+
+
+Tmin = min([Trw,Tfw,Theave,Tpitch]);
+Tmax = max([Trw,Tfw,Theave,Tpitch]);
 %time it takes to go over 1/2 bump
     % TAKEN FROM EQNS SCRIPT.... NEED T11
     T1 = 0; %s, time when front tire hits first 
@@ -102,6 +109,7 @@ end
 
 sf_deflection = s(:,3) - q_sf0;
 sr_deflection = s(:,4) - q_sr0;
+max(sr_deflection)
 
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
 % Front and Rear Suspension Deflections 
