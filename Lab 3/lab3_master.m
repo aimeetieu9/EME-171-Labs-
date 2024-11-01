@@ -72,7 +72,10 @@ Tfw = 2*pi / sqrt(kTF/jCR);
 Theave = 2*pi / sqrt((kSR+kSF)/jCR);
 Tpitch = (2*pi) / sqrt(kSR/jCR) * b^2 + (2*pi) / sqrt(kSF/jCR) * a^2;
 
-nFreq = 1/Tpitch * 2*pi; %natural frequency [rad/s]
+Frw = 1/Trw * 2*pi; %natural frequency [rad/s]
+Ffw = 1/Tfw * 2*pi;
+Fheave = 1/Theave * 2*pi;
+Fpitch = 1/Tpitch * 2*pi;
 
 
 Tmin = min([Trw,Tfw,Theave,Tpitch]);
