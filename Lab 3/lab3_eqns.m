@@ -23,7 +23,7 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
    
 
 
-    T1 = 0; %s, time when front tire hits first 
+    T1 = 0.5; %s, time when front tire hits first 
     T2 = T1 + L/(2*vC); %s, front tire apex 1st 
     T3 = T1 + L/vC; %s, front tire end first 
     T4 = T1 + lWB/vC; %s, back tire start 1st 
@@ -75,14 +75,12 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     qSR_dot = pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
     pTF_dot = qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
     pTR_dot = qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
-    qTF_dot = vFI - pTF/mTF; %add in vFI
-    qTR_dot = vRI - pTR/mTR; %add in vRI
+    qTF_dot = vFI - pTF/mTF; 
+    qTR_dot = vRI - pTR/mTR; 
 
-    droad_dot = Vi; %lab 2
-
-    % External forces
-    ext(1) = B * (Vi / M); 
-    ext(2) = Vi; 
+    % External variables
+    ext(1) = vRI; 
+    ext(2) = vFI; 
     
     % State derivatives
     ds = [pJ_dot; pCR_dot; qSF_dot; qSR_dot; pTF_dot; pTR_dot; qTF_dot; qTR_dot]; % modified 

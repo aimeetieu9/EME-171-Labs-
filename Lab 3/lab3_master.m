@@ -94,19 +94,19 @@ tspan = linspace(tspanstart,tspanend,numofsteps); %CHANGE!!!!!!!
 [t, s] = ode45(@lab3_eqns,tspan,initial);
 
 ext = zeros(length(t),2);
-ds = zeros(length(t),4);
+ds = zeros(length(t),8);
 
 for i = 1:length(t)
 [ds(i,:) ext(i,:)] = lab3_eqns(t(i), s(i,:));
 end
 
+sf_deflection = s(:,3) - q_sf0;
+sr_deflection = s(:,4) - q_sr0;
 
-sf_deflection = q_sf0 - s(:,3);
-sr_deflection = q_sr0 - s(:,4);
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
 % Front and Rear Suspension Deflections 
 figure('Name','Suspension Deflection','NumberTitle','off','Color','white')
-plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,9), 'c'), grid on
+plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,8), 'c'), grid on
 title('Suspension Deflection')
 ylabel('displacement (m)')
 xlabel('time (s)')
@@ -114,7 +114,7 @@ xlabel('time (s)')
 % Heave Velocity
 v_heave = s(:,2)/mCR; 
 figure('Name','Heave Velocity','NumberTitle','off','Color','white')
-plot(t, v_heave,'k', t, s(:,9), 'k'), grid on
+plot(t, v_heave,'k', t, s(:,8), 'k'), grid on
 title('Heave Velocity')
 ylabel('velocity (m/s)')
 xlabel('time (s)')
@@ -122,10 +122,14 @@ xlabel('time (s)')
 %Pitch Angular Velocity 
 omega_velocity= s(:,1)/jCR; 
 figure('Name','Pitch Angular Velocity','NumberTitle','off','Color','white')
-plot(t, s(:,9),'k', t, omega_velocity, 'k'), grid on
+plot(t, s(:,8),'k', t, omega_velocity, 'k'), grid on
 title('Heave Velocity')
 ylabel('Pitch Angular Velocity (rad/s)')
 xlabel('time (s)')
 
-
-
+%Plotting velocity inputs to check
+figure('Name', 'Road Velocity Check','NumberTitle','off', 'Color','white')
+plot(t, ext(:,1), 'r', t, ext(:,2), 'b'), grid on
+title('Road Velocity Check')
+ylabel('velocity (m/s)')
+xlabel('time (s)')

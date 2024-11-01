@@ -1,14 +1,14 @@
 clear all;
 close all;
 clc;
-global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
+global a b vC jCR lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g;
 
 
 %parameters
 amp = 0.1; %m/s, velocity input (road profile)
 
 %system parameters MODIFIED! 
-vC = 10; 
+vC = 10;
 lCG_standard = 0.9; 
 lCG_forward = 0.7; 
 mCR = 300; 
@@ -73,40 +73,40 @@ Tmax = max([T1,T2,T3,T4]);
 %time it takes to go over 1/2 bump
     % TAKEN FROM EQNS SCRIPT.... NEED T11
     T1 = 0; %s, time when front tire hits first 
-    T2 = T1 + L/(2*Vc); %s, front tire apex 1st 
-    T3 = T1 + L/Vc; %s, front tire end first 
-    T4 = T1 + lWB/Vc; %s, back tire start 1st 
-    T5 = T4 + L/(2*Vc); %s, back tire apex 1st 
-    T6 = T4 + L/Vc; %s, back tire end 1st & front tire start 2nd
-    T7 = T6 + L/(2*Vc); %s, front tire apex 2nd
-    T8 = T6 + L/Vc; %s, front tire end 2nd 
-    T9 = T6 + lWB/Vc; %s, back tire start 2nd 
-    T10 = T9 + L/(2*Vc); %s, back tire 2nd apex
-    T11 = T9 + L/Vc; %s, back tire end 2nd
+    T2 = T1 + L/(2*vC); %s, front tire apex 1st 
+    T3 = T1 + L/vC; %s, front tire end first 
+    T4 = T1 + lWB/vC; %s, back tire start 1st 
+    T5 = T4 + L/(2*vC); %s, back tire apex 1st 
+    T6 = T4 + L/vC; %s, back tire end 1st & front tire start 2nd
+    T7 = T6 + L/(2*vC); %s, front tire apex 2nd
+    T8 = T6 + L/vC; %s, front tire end 2nd 
+    T9 = T6 + lWB/vC; %s, back tire start 2nd 
+    T10 = T9 + L/(2*vC); %s, back tire 2nd apex
+    T11 = T9 + L/vC; %s, back tire end 2nd
 Thalfbump = L/(2*vC);
 maxstepsize = min(Tmin/10, Thalfbump/10);
 
 tspanstart = 0;
-tspanend = 3*Tmax ; % 3 x Tmax + time tire reaches end of second bump NEEDS CALCULATION
+tspanend = 3*Tmax + T11; % 3 x Tmax + time tire reaches end of second bump
 numofsteps = (tspanend-tspanstart)/maxstepsize;
 tspan = linspace(tspanstart,tspanend,numofsteps); %CHANGE!!!!!!!
 
 [t, s] = ode45(@lab3_eqns,tspan,initial);
 
 ext = zeros(length(t),2);
-ds = zeros(length(t),4);
+ds = zeros(length(t),8);
 
 for i = 1:length(t)
 [ds(i,:) ext(i,:)] = lab3_eqns(t(i), s(i,:));
 end
 
-
 sf_deflection = q_sf0 - s(:,3);
 sr_deflection = q_sr0 - s(:,4);
+
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
 % Front and Rear Suspension Deflections 
 figure('Name','Suspension Deflection','NumberTitle','off','Color','white')
-plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,9), 'c'), grid on
+plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,8), 'c'), grid on
 title('Suspension Deflection')
 ylabel('displacement (m)')
 xlabel('time (s)')
@@ -114,7 +114,7 @@ xlabel('time (s)')
 % Heave Velocity
 v_heave = s(:,2)/mCR; 
 figure('Name','Heave Velocity','NumberTitle','off','Color','white')
-plot(t, v_heave,'k', t, s(:,9), 'k'), grid on
+plot(t, v_heave,'k', t, s(:,8), 'k'), grid on
 title('Heave Velocity')
 ylabel('velocity (m/s)')
 xlabel('time (s)')
@@ -122,10 +122,11 @@ xlabel('time (s)')
 %Pitch Angular Velocity 
 omega_velocity= s(:,1)/jCR; 
 figure('Name','Pitch Angular Velocity','NumberTitle','off','Color','white')
-plot(t, s(:,9),'k', t, omega_velocity, 'k'), grid on
+plot(t, s(:,8),'k', t, omega_velocity, 'k'), grid on
 title('Heave Velocity')
 ylabel('Pitch Angular Velocity (rad/s)')
 xlabel('time (s)')
 
-
+%Plotting velocity inputs to check
+figure('Name', 'Road Velocity Check',)
 
