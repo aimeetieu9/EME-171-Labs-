@@ -22,7 +22,7 @@ mTR = 20;
 kTF = 30000; %front tire stiffness
 kTR = 40000; %rear tire stiffness
 lWB = 1.6; 
-A = 0.1; %bump height CHANGE!!!!!!!!!!
+A = 0.165; %bump height CHANGE!!!!!!!!!!
 L = 0.5; 
 g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; %rotational inertia
@@ -106,15 +106,16 @@ sr_deflection = s(:,4) - q_sr0;
 %FRONT AND REAR IDENTICAL BUT SHIFTED BY A TIME
 % Front and Rear Suspension Deflections 
 figure('Name','Suspension Deflection','NumberTitle','off','Color','white')
-plot(t, sf_deflection,'k',t, sr_deflection, 'r', t, s(:,8), 'c'), grid on
+plot(t, sf_deflection,'k',t, sr_deflection, 'r'), grid on
 title('Suspension Deflection')
 ylabel('displacement (m)')
 xlabel('time (s)')
+legend('Front Suspension', 'Rear Suspension')
 
 % Heave Velocity
 v_heave = s(:,2)/mCR; 
 figure('Name','Heave Velocity','NumberTitle','off','Color','white')
-plot(t, v_heave,'k', t, s(:,8), 'k'), grid on
+plot(t, v_heave,'k'), grid on
 title('Heave Velocity')
 ylabel('velocity (m/s)')
 xlabel('time (s)')
@@ -122,14 +123,15 @@ xlabel('time (s)')
 %Pitch Angular Velocity 
 omega_velocity= s(:,1)/jCR; 
 figure('Name','Pitch Angular Velocity','NumberTitle','off','Color','white')
-plot(t, s(:,8),'k', t, omega_velocity, 'k'), grid on
-title('Heave Velocity')
+plot(t, omega_velocity, 'k'), grid on
+title('Pitch Angular Velocity')
 ylabel('Pitch Angular Velocity (rad/s)')
 xlabel('time (s)')
 
 %Plotting velocity inputs to check
 figure('Name', 'Road Velocity Check','NumberTitle','off', 'Color','white')
-plot(t, ext(:,1), 'r', t, ext(:,2), 'b'), grid on
+plot(t, ext(:,2), 'b', t, ext(:,1), 'r'), grid on
 title('Road Velocity Check')
 ylabel('velocity (m/s)')
 xlabel('time (s)')
+legend('Front Input Velocity', 'Rear Input Velocity')

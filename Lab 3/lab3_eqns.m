@@ -1,5 +1,5 @@
 function [ds, ext] = lab3_eqns(t, s)
-global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L A a b jCR;
+global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L a b jCR;
     
     % State Variables (lab 3)
     pJ = s(1); 
@@ -19,7 +19,7 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     % Flow Source (lab 3)
     
     L = 0.5; % m, bump distance
-    A = 0.08; % m, placeholder need to make max height before suspension deflection = 0.1m
+    %A = 0.16; % m, placeholder need to make max height before suspension deflection = 0.1m
    
 
 
