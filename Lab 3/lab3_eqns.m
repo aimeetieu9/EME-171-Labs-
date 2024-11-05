@@ -21,8 +21,6 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     L = 0.5; % m, bump distance
     %A = 0.16; % m, placeholder need to make max height before suspension deflection = 0.1m
    
-
-
     T1 = 0.5; %s, time when front tire hits first 
     T2 = T1 + L/(2*vC); %s, front tire apex 1st 
     T3 = T1 + L/vC; %s, front tire end first 
@@ -83,5 +81,5 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     ext(2) = vFI; 
     
     % State derivatives
-    ds = [pJ_dot; pCR_dot; qSF_dot; qSR_dot; pTF_dot; pTR_dot; qTF_dot; qTR_dot]; % modified 
+    ds = [pJ_dot; pCR_dot; qSF_dot; qSR_dot; pTF_dot; pTR_dot; qTF_dot; qTR_dot];
 end

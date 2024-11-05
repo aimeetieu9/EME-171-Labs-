@@ -7,7 +7,7 @@ global a b vC jCR lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF k
 %parameters
 amp = 0.1; %m/s, velocity input (road profile)
 
-%system parameters MODIFIED! 
+% %system parameters MODIFIED!
 vC = 10;
 lCG_standard = 0.9; 
 lCG_forward = 0.7; 
@@ -26,26 +26,6 @@ A = 0.1665; %bump height CHANGE!!!!!!!!!!
 L = 0.5; 
 g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; %rotational inertia
-
-
-% INITIAL CONDITIONS CALCULATION (set derivatives = 0):
-% for standard conditions, a = lCG_standard, b = lWB - lCG_standard
-% for forward conditions, a = lCG_forward, b = lWB - lCG_forward
-    
-    % eqn1 = 0 == (a*((qSF*kSF) + (bSF*((pTF/mTF)-(pCR/mCR)-(a*pJ/jCR))))) - (b*((qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) + (b*pJ/jCR))))); 
-    % eqn2 = 0 == (-mCR*g) + (qSF*kSF) + (bSF*((pTF/mTF) - (pCR/mCR) -(a*pJ/jCR))) + (qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) +(b*pJ/jCR)));
-    % eqn3 = 0 == pTF/mTF - pCR/mCR - a*pJ/jCR; %a is dependent on forward or standard, add parameter (not the same as A, bump height)
-    % eqn4 = 0 == pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
-    % eqn5 = 0 == qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
-    % eqn6 = 0 == qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
-    % eqn7 = 0 == vFI - pTF/mTF; %add in vFI
-    % eqn8 = 0 == vRI - pTR/mTR; %add in vRI
-    % 
-    % Initialeqns = [eqn1,eqn2,eqn3,eqn4,eqn5,eqn6,eqn7,eqn8];
-    % InitialVar = [pJ,pCR,qSF,qSR,pTF,pTR,qTF,qTR];
-    % 
-    % sol = solve(Initialeqns,InitialVar);
-    %CHECKKKKK
 
 % Initial conditions
 %b = lWB - lCG_forward;
@@ -81,7 +61,6 @@ Fpitch = 1/Tpitch * 2*pi;
 Tmin = min([Trw,Tfw,Theave,Tpitch]);
 Tmax = max([Trw,Tfw,Theave,Tpitch]);
 %time it takes to go over 1/2 bump
-    % TAKEN FROM EQNS SCRIPT.... NEED T11
     T1 = 0; %s, time when front tire hits first 
     T2 = T1 + L/(2*vC); %s, front tire apex 1st 
     T3 = T1 + L/vC; %s, front tire end first 
@@ -99,7 +78,7 @@ maxstepsize = min(Tmin/10, Thalfbump/10);
 tspanstart = 0;
 tspanend = 3*Tmax + T11; % 3 x Tmax + time tire reaches end of second bump
 numofsteps = (tspanend-tspanstart)/maxstepsize;
-tspan = linspace(tspanstart,tspanend,numofsteps); %CHANGE!!!!!!!
+tspan = linspace(tspanstart,tspanend,numofsteps);
 
 [t, s] = ode45(@lab3_eqns,tspan,initial);
 
