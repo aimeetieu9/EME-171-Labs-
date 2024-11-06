@@ -30,8 +30,8 @@ jCR = mCR * rGY^2; %rotational inertia
 % Initial conditions
 %b = lWB - lCG_forward;
 %a = lCG_forward;
-b = lWB - lCG_standard;
-a = lCG_standard;
+b = lWB - lCG_forward;
+a = lCG_forward;
 
 vFI = 0; 
 vRI = 0; 
@@ -67,7 +67,7 @@ TIME STEP CALC
 Frw = sqrt((kTR)/mTR); %natural frequency [rad/s]
 Ffw = sqrt(kTF/mTF);
 Fheave = sqrt((kSR+kSF)/mCR);
-Fpitch = sqrt( (kSF*(a^2)) + (kSR*(b^2)))/jCR;
+Fpitch = sqrt( (kSF*(a^2)) + (kSR*(b^2))/jCR);
 
 
 Tmin = min([Trw,Tfw,Theave,Tpitch]);
