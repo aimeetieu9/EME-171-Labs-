@@ -22,7 +22,7 @@ mTR = 20;
 kTF = 30000; %front tire stiffness
 kTR = 40000; %rear tire stiffness
 lWB = 1.6; 
-A = 0.1665; %bump height CHANGE!!!!!!!!!!
+A = 0.166; %bump height
 L = 0.5; 
 g = 9.81; %m/s^2;
 jCR = mCR * rGY^2; %rotational inertia
@@ -30,8 +30,8 @@ jCR = mCR * rGY^2; %rotational inertia
 % Initial conditions
 %b = lWB - lCG_forward;
 %a = lCG_forward;
-b = lWB - lCG_forward;
-a = lCG_forward;
+b = lWB - lCG_standard;
+a = lCG_standard;
 
 vFI = 0; 
 vRI = 0; 
@@ -45,30 +45,17 @@ q_sf0 = (b*mCR*g) / ((b+a) * kSF);
 q_sr0 = (mCR * g) / (((b/a) + 1) * kSR);
 initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
 
-% % TIME STEP CALC
-% % shortest vibration period
-% Trw = 2*pi / sqrt((kTR)/jCR);
-% Tfw = 2*pi / sqrt(kTF/jCR);
-% Theave = 2*pi / sqrt((kSR+kSF)/jCR);
-% Tpitch = (2*pi) / sqrt(kSR/jCR) * b^2 + (2*pi) / sqrt(kSF/jCR) * a^2;
-% 
-% Frw = 1/Trw * 2*pi; %natural frequency [rad/s]
-% Ffw = 1/Tfw * 2*pi;
-% Fheave = 1/Theave * 2*pi;
-% Fpitch = 1/Tpitch * 2*pi;
-
-TIME STEP CALC
-% shortest vibration period
-% Trw = 2*pi / sqrt((kTR)/jCR);
-% Tfw = 2*pi / sqrt(kTF/jCR);
-% Theave = 2*pi / sqrt((kSR+kSF)/jCR);
-% Tpitch = (2*pi) / sqrt(kSR/jCR) * b^2 + (2*pi) / sqrt(kSF/jCR) * a^2;
-
+%Natural Frequency Calc
 Frw = sqrt((kTR)/mTR); %natural frequency [rad/s]
 Ffw = sqrt(kTF/mTF);
 Fheave = sqrt((kSR+kSF)/mCR);
 Fpitch = sqrt( (kSF*(a^2)) + (kSR*(b^2))/jCR);
 
+%TIME STEP CALC
+Trw = 2*pi/Frw;
+Tfw = 2*pi/Ffw;
+Theave = 2*pi/Fheave;
+Tpitch = 2*pi/Fpitch;
 
 Tmin = min([Trw,Tfw,Theave,Tpitch]);
 Tmax = max([Trw,Tfw,Theave,Tpitch]);
