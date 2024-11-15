@@ -1,20 +1,17 @@
 function [ds, ext] = lab3_eqns(t, s)
-global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A L g Vc L a b jCR;
+global rho g Ap P Cf L Ip At Ct Q0 d0 d1 d2;
     
-    % State Variables (lab 3)
-    pJ = s(1); 
-    pCR = s(2); 
-    qSF = s(3); 
-    qSR = s(4); 
-    pTF = s(5);
-    pTR = s(6);
-    qTF = s(7);
-    qTR = s(8); 
+    % State Variables (lab 4)
+    p3 = s(1); 
+    p9 = s(2); 
+    q7 = s(3); 
+    q13 = s(4);
 
     % Effort Source (from lab 3)
-    se_cr = mCR * g;  %gravity on cycle and rider
-    se__tf = mTF * g;  %gravity on front tire
-    se_tr = mTR * g;  %gravity on rear tire
+    se1 = rho*g*d0;  
+    se6 = rho*g*d1;  
+    se12 = rho*g*d2; 
+    sf = QO_t; % changes with time MODIFYYYYYYYYYY
 
     % Flow Source (lab 3)
     
@@ -66,20 +63,17 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     end
 
 
-    % Equations of Motion (EOM) 
-    pJ_dot = (a*((qSF*kSF) + (bSF*((pTF/mTF)-(pCR/mCR)-(a*pJ/jCR))))) - (b*((qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) + (b*pJ/jCR))))); 
-    pCR_dot = (-mCR*g) + (qSF*kSF) + (bSF*((pTF/mTF) - (pCR/mCR) -(a*pJ/jCR))) + (qSR*kSR) + (bSR*((pTR/mTR) - (pCR/mCR) +(b*pJ/jCR)));
-    qSF_dot = pTF/mTF - pCR/mCR - a*pJ/jCR; 
-    qSR_dot = pTR/mTR - pCR/mCR + b*pJ/jCR; %add in 'b' parameter
-    pTF_dot = qTF*kTF - mTF*g - qSF*kSF - bSF*(pTF/mTF - pCR/mCR - a*pJ/jCR); %in the parentheses is = qSF_dot
-    pTR_dot = qTR*kTR - mTR*g - qSR*kSR - bSR*(pTR/mTR - pCR/mCR + b*pJ/jCR);
-    qTF_dot = vFI - pTF/mTF; 
-    qTR_dot = vRI - pTR/mTR; 
+    % Equations of Motion (EOM) (lab 4)
+    qdot7 = (p3/Ip) - (p9/Ip); 
+    qdot13 = (p9/Ip) - Q0;
+    pdot3 = (rho*g*d0) + (rho*g*d1) - (Cf* (p3/Ip) * abs(p3/Ip)) - (q7/Ct);
+    pdot9 = (q7/Ct) + (rho*g*d2) + (q13/Ct) - (Cf*(p9/Ip)*abs(p9/Ip));
+
 
     % External variables
     ext(1) = vRI; 
     ext(2) = vFI; 
     
-    % State derivatives
-    ds = [pdot7; qdot13; pdot3; pdot9];
+    % State derivatives (lab 4)
+    ds = [qdot7; qdot13; pdot3; pdot9];
 end

@@ -1,7 +1,7 @@
 clear all;
 close all;
 clc;
-global rho g Ap P Cf L Ip At Ct Q0 d0 d1 d2;
+global rho  g Ap P Cf L Ip At Ct Q0 d0 d1 d2;
 
 %System Parameters
 rho  = 1000; %kg/m^3 water rho 
@@ -17,11 +17,10 @@ Q0 = 1.5; %given
 d0 = 20;
 d1= 20; 
 d2 = 20; 
-
 % Initial conditions
+
 p9_0 = Q0 * Ip; 
 p3_0 = Q0 * Ip; 
-q7_0 = Ct * ((rho*g*d0) + (rho*g*d1) - (Cf*Q0*abs(Q0))); 
-q13_0 = Ct * ((q7_0/Ct) + (rho*g*d2) - (Cf*Q0*abs(Q0))); 
-initial = [p9_0, p3_0, q7_0, q13_0]; 
-
+q7_0 = Ct * ( (rhog*d0) + ()) 
+q_sr0 = (mCR * g) / (((b/a) + 1) * kSR);
+initial = [p_J0, p_cr0, q_sf0, q_sr0, p_tf0, p_tr0, q_tf0, q_tr0]; 
