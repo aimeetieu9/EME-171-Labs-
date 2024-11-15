@@ -31,7 +31,7 @@ global rho g Ap P Cf L Ip At Ct Q0 d0 d1 d2;
     qdot7 = (p3/Ip) - (p9/Ip); 
     qdot13 = (p9/Ip) - Q0;
     pdot3 = (rho*g*d0) + (rho*g*d1) - (Cf* (p3/Ip) * abs(p3/Ip)) - (q7/Ct);
-    pdot9 = (q7/Ct) + (rho*g*d2) + (q13/Ct) - (Cf*(p9/Ip)*abs(p9/Ip));
+    pdot9 = (q7/Ct) + (rho*g*d2) - (q13/Ct) - (Cf*(p9/Ip)*abs(p9/Ip));
     
 
 
