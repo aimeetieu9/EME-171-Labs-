@@ -81,5 +81,5 @@ global vC lCG_standard lCG_forward mCR rGY kSF kSR bSF bSR mTF mTR kTF kTR lWB A
     ext(2) = vFI; 
     
     % State derivatives
-    ds = [pJ_dot; pCR_dot; qSF_dot; qSR_dot; pTF_dot; pTR_dot; qTF_dot; qTR_dot];
+    ds = [pdot7; qdot13; pdot3; pdot9];
 end
