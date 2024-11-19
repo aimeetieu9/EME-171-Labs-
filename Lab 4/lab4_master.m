@@ -27,8 +27,20 @@ q7_0 = Ct * ((rho*g*d0) + (rho*g*d1) - (Cf*Q0*abs(Q0)));
 q13_0 = Ct * ((q7_0/Ct) + (rho*g*d2) - (Cf*Q0*abs(Q0))); 
 initial = [p9_0, p3_0, q7_0, q13_0]; 
 
+%Time step calcs. there are two natural frequencies, one for each tank, but
+%since each tank has the same I and C, the frequencies are the same for
+%both.
 
-tspan = linspace(0,200,5000);
+omegan = sqrt(1/(Ct*Ip));
+fn = omegan/(2*pi);
+T = 1/fn;
+
+maxstepsize = T/10;
+starttime = 0;
+endtime = 3*T; %3 x period
+numsteps = (endtime - starttime)/maxstepsize;
+
+tspan = linspace(starttime,endtime,numsteps);
 
 [t, s] = ode45(@lab4_eqns,tspan,initial);
 
