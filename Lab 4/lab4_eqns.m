@@ -1,4 +1,4 @@
-function [ds, ext] = lab3_eqns(t, s)
+function [ds, ext] = lab4_eqns(t, s)
 global rho g Ap P Cf L Ip At Ct Q0 d0 d1 d2;
      
     % State Variables (lab 4)
