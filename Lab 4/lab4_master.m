@@ -31,13 +31,16 @@ initial = [p9_0, p3_0, q7_0, q13_0];
 %since each tank has the same I and C, the frequencies are the same for
 %both.
 
-omegan = sqrt(1/(Ct*Ip));
-fn = omegan/(2*pi);
-T = 1/fn;
+Tinput = 0.15; %smaller period... 10 data points within the amount of time the input changes.
+fninput = 1/Tinput;
 
-maxstepsize = T/10;
+omegan = sqrt(1/(Ct*Ip));
+fnoutput = omegan/(2*pi);
+Toutput = 1/fnoutput; %larger period
+
+maxstepsize = Tinput/10;
 starttime = 0;
-endtime = 3*T; %3 x period
+endtime = 200; %3 x larger period
 numsteps = (endtime - starttime)/maxstepsize;
 
 tspan = linspace(starttime,endtime,numsteps);
@@ -53,11 +56,27 @@ end
 
 h1 = s(:,3) / At;
 h2 = s(:,4) / At;
+H1max = h1max*ones(size(t));
+H2max = h2max*ones(size(t));
 
 figure('Name','Heights h','NumberTitle','off','Color','white')
-plot(t, h1,'k',t, h2, 'r', t, h1max, 'b', t, h2max, 'g'), grid on
+plot(t, h1,'k',t, h2, 'r', t, H1max, 'b', t, H2max, 'g'), grid on
 %plot(t, ext(:,1), 'g'), grid on
-title('Suspension Deflection')
+title('Tank Heights')
 ylabel('displacement (m)')
 xlabel('time (s)')
 legend('height 1', 'height 2', 'max height 1','max height 2')
+
+endtime = 5;
+numofsteps = 333;
+tspan = linspace(starttime,endtime,numofsteps);
+AHHH = zeros(numofsteps);
+for i = 1:numofsteps
+    AHHH(i) = ext(i);
+end
+
+figure('Name','Q0 Input','NumberTitle','off','Color','white')
+plot(tspan, AHHH,'b'), grid on
+title('Turbine Flow Input')
+ylabel('flow rate (m^3/s)')
+xlabel('time (s)')
