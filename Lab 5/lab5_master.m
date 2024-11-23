@@ -20,7 +20,7 @@ Uin = 100; %volts
 pL0 = 0;
 pM0 = 0;
 initial =[pL0,pM0];
-tspan=0:0.1:1; %simulating for 4 seconds with 0.01 time step  
+tspan=0:0.01:4; %simulating for 4 seconds with 0.01 time step  
 [t,s] = ode45(@lab5_eqns,tspan,initial);
 pL = s(:,1);
 pM = s(:,2);
@@ -29,7 +29,7 @@ pM = s(:,2);
 %ds = zeros(length(t),4);
 
 for i = 1:length(t)
-[ds(i,:) ext(i,:)] = lab4_eqns(t(i), s(i,:));
+[ds(i,:)] = lab5_eqns(t(i), s(i,:));
 end
 
 
