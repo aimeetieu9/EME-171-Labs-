@@ -43,7 +43,6 @@ ylabel('Car velocity (m/s)');
 title(' Steady state speed ');
 
 %% Part 2
-
 clear all
 close all
 clc
@@ -93,7 +92,6 @@ hold on
 plot (t,vref);
 
 %% Part 3
-
 clear all
 close all
 clc

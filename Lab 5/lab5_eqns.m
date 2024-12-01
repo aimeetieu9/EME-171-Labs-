@@ -12,7 +12,7 @@
 % pMdot = (Gr/R)*((Tm*pL/Lw) - (pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M);
 % ds = [pLdot; pMdot];
 % end
-
+%% 
 % %% Part 2 
 % function [ds, ext] = lab5_eqns(t,s)
 % global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g vref dref uin kp ki
@@ -70,5 +70,5 @@ ddot = pM/M;
 
 
 ds = [pLdot; pMdot; d_refdot; ddot];
-ext=[vref];
+ext = [vref];
 end
