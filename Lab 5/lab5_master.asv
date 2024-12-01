@@ -116,13 +116,14 @@ Uin = 100; %volts
 
 kp = 200;
 ki = 300;
+
 %Initial conditions
 pL0 = 0;
 pM0 = 0;
 dref0 = 0; 
 d0=0; 
 initial =[pL0; pM0; dref0; d0]; 
-tspan =0:0.01:300;
+
 [t,s] = ode45(@lab5_eqns,tspan,initial);
 pL = s(:,1);
 pM = s(:,2);
@@ -135,7 +136,7 @@ for i=1:length(t)
 end
 
 for i =1:length(t)
-    [ds(i,:), ext(i,:)] = lab5_eqns(t(i),s(i,:)); 
+    [ds(i,:), ext(i,:)] = lab5_eqns(t(i),s(i,:)); %different compared to part 1
 end
 vref= ext(:,1);
 
