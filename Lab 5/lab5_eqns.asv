@@ -1,17 +1,17 @@
 % %% Part 1
-% function [ds] = lab5_eqns(t,s)
-% global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g
-% 
-% %State variables
-% pL = s(1);
-% pM = s(2);
-% % Approximation for signum function
-% sgn_approx = pM / (abs(pM) + (1*10^-5));
-% % Equations of Motion (EOM) (lab 5)
-% pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
-% pMdot = (Gr/R)*((Tm*pL/Lw) - (pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M);
-% ds = [pLdot; pMdot];
-% end
+function [ds] = lab5_eqns(t,s)
+global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g
+
+%State variables
+pL = s(1);
+pM = s(2);
+% Approximation for signum function
+sgn_approx = pM / (abs(pM) + (1*10^-5));
+% Equations of Motion (EOM) (lab 5)
+pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
+pMdot = (Gr/R)*((Tm*pL/Lw) - (pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M);
+ds = [pLdot; pMdot];
+end
 %% 
 % %% Part 2 
 % function [ds, ext] = lab5_eqns(t,s)
@@ -36,7 +36,7 @@
 % uin = kp*(vref-pM/M) + ki*(dref-dact);
 % 
 % % Equations of Motion (EOM) (lab 5)
-% pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
+% pLdot = uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
 % pMdot = (Gr/R)*((Tm*pL/Lw) - (pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M);
 % d_refdot = vref;
 % ddot = pM/M;
@@ -70,5 +70,5 @@ ddot = pM/M;
 
 
 ds = [pLdot; pMdot; d_refdot; ddot];
-ext=[vref];
+ext = [vref];
 end
