@@ -97,7 +97,7 @@ close all
 clc
 
 % Givens
-global Rw Lw Tm M btau R Gr Cr g Cd rho Af Uin vref dref uin kp ki
+global Rw Lw Tm M btau R Gr Cr g Cd rho Af Uin vref dref kp ki
 Rw = 0.3; % ohms
 Lw = 0.015; % henry
 Tm = 1.718; % Weber
@@ -126,21 +126,34 @@ pL = s(:,1);
 pM = s(:,2);
 dref= s(:,3); 
 dact= s(:,4);
-vref=zeros(length(t),1);
+%vref=zeros(length(t),1);
 
-for i=1:length(t)
-    vref(i) = LA92Oracle(t(i));
-end
+
+%for i=1:length(t)
+%    vref(i) = LA92Oracle(t(i));
+%end
+ext = zeros(length(t),1);
+ds = zeros(length(t),4);
 
 for i =1:length(t)
     [ds(i,:), ext(i,:)] = lab5_eqns(t(i),s(i,:)); 
 end
-vref= ext(:,1);
+vref = ext(:,1);
+%vactual = ds(:,4);
 
 figure; 
-plot(t, pM/M)
-xlabel('Time(s)');
-ylabel('Velocity');
-title( 'Testing');
+plot(t, pM/M) %actual velocity
+xlabel('Time (s)');
+ylabel('Velocity (m/s)');
+title( 'Testing | Actual Velocity');
 hold on
-plot (t,vref);
+%plot (t,vref); %reference velocity
+
+
+figure('Name','ref and actual velocity','NumberTitle','off','Color','white')
+plot(t, pM/M,'b', t, vref, 'r'), grid on
+title('Testing | Actual and Reference Velocities')
+ylabel('Velocity (m/s)')
+xlabel('Time (s)')
+axis([32,54,4,8])
+legend('Actual Velocity', 'Reference Velocity')

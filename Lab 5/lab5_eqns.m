@@ -47,7 +47,7 @@
 
 %% Part 3
 function [ds, ext] = lab5_eqns(t,s)
-global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g vref dref uin kp ki
+global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g vref dref kp ki
 %Extract the state variables
 pL = s(1);
 pM = s(2);
@@ -60,7 +60,7 @@ sgn_approx = pM / (abs(pM) + 1e-5);
 vref = LA92Oracle(t);
 
 % Input Velocity (given) 
-uin = kp*(vref-pM/M) + ki*(dref-dact);
+Uin = kp*(vref-pM/M) + ki*(dref-dact);
 
 % Equations of Motion (EOM) (lab 5)
 pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
