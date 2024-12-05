@@ -53,6 +53,7 @@ pL = s(1);
 pM = s(2);
 dref= s(3);
 dact= s(4);
+Energyin = s(5); % energy in
 
 % Approximation for signum function (From Part 1)
 sgn_approx = pM / (abs(pM) + 1e-5);
@@ -69,6 +70,13 @@ d_refdot = vref;
 ddot = pM/M;
 
 
-ds = [pLdot; pMdot; d_refdot; ddot];
-ext = [vref];
+Pin = (pL/Lw)*Uin; %power in = flow in * effort in
+Pout = pMdot*ddot; %power out = effort out * flow out
+
+Pin_acc = Pin(Pout>0); % power in when accelerating
+Pout_acc = Pout(Pout>0); % power out when accelerating
+
+ds = [pLdot; pMdot; d_refdot; ddot; Pin];
+ext = [vref,Pin_acc,Pout_acc];
+
 end

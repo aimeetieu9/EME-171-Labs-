@@ -119,7 +119,8 @@ pL0 = 0;
 pM0 = 0;
 dref0 = 0; 
 d0=0; 
-initial =[pL0; pM0; dref0; d0]; 
+Energyin0 = 0;
+initial =[pL0; pM0; dref0; d0; Energyin0]; 
 tspan =0:0.01:300;
 [t,s] = ode45(@lab5_eqns,tspan,initial);
 pL = s(:,1);
@@ -127,19 +128,33 @@ pM = s(:,2);
 dref= s(:,3); 
 dact= s(:,4);
 %vref=zeros(length(t),1);
-
+Energyin = s(:,5); % energy in over time
 
 %for i=1:length(t)
 %    vref(i) = LA92Oracle(t(i));
 %end
-ext = zeros(length(t),1);
-ds = zeros(length(t),4);
+ext = zeros(length(t),3);
+ds = zeros(length(t),5);
 
 for i =1:length(t)
     [ds(i,:), ext(i,:)] = lab5_eqns(t(i),s(i,:)); 
 end
 vref = ext(:,1);
-%vactual = ds(:,4);
+
+    Pin_acc = ext(:,2);
+    Pout_acc = ext(:,3);
+
+    Pin_acc_tot = sum(Pin_acc);
+    Pout_acc_tot = sum(Pout_acc);
+    Pin_acc_avg = Pin_acc_tot/length(t); %total divided by the number of elements
+    Pout_acc_avg = Pout_acc_tot/length(t);
+
+    accel_eff = Pout_acc_avg/Pin_acc_avg %output over input
+
+    dfinal = dact(end);
+
+    distperenergy = dfinal/Energyin(end)
+
 
 figure; 
 plot(t, pM/M) %actual velocity
