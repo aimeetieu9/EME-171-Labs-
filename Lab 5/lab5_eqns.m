@@ -1,17 +1,17 @@
-% %% Part 1
-function [ds] = lab5_eqns(t,s)
-global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g
-
-%State variables
-pL = s(1);
-pM = s(2);
-% Approximation for signum function
-sgn_approx = pM / (abs(pM) + (1*10^-5));
-% Equations of Motion (EOM) (lab 5)
-pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
-pMdot = (Gr/R)*((Tm*pL/Lw) - (Gr/R)*(pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M);
-ds = [pLdot; pMdot];
-end
+% % %% Part 1
+% function [ds] = lab5_eqns(t,s)
+% global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g
+% 
+% %State variables
+% pL = s(1);
+% pM = s(2);
+% % Approximation for signum function
+% sgn_approx = pM / (abs(pM) + (1*10^-5));
+% % Equations of Motion (EOM) (lab 5)
+% pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
+% pMdot = (Gr/R)*((Tm*pL/Lw) - (Gr/R)*(pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M);
+% ds = [pLdot; pMdot];
+% end
 
 %% Part 2 
 function [ds, ext] = lab5_eqns(t,s)
@@ -45,37 +45,37 @@ ds = [pLdot; pMdot; d_refdot; ddot];
 ext=[vref];
 end
 
-%% Part 3
-function [ds, ext] = lab5_eqns(t,s)
-global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g vref dref kp ki
-%Extract the state variables
-pL = s(1);
-pM = s(2);
-dref= s(3);
-dact= s(4);
-Energyin = s(5); % energy in
-
-% Approximation for signum function (From Part 1)
-sgn_approx = pM / (abs(pM) + 1e-5);
-
-vref = LA92Oracle(t);
-
-% Input Velocity (given) 
-Uin = kp*(vref-pM/M) + ki*(dref-dact);
-
-% Equations of Motion (EOM) (lab 5)
-pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
-pMdot = (Gr/R)*((Tm*pL/Lw) - (Gr/R)*(pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M); %sachi adding gr/r 
-d_refdot = vref;
-ddot = pM/M;
-
-Pin = (pL/Lw)*Uin; %power in = flow in * effort in
-Pout = pMdot*ddot; %power out = effort out * flow out
-
-Pin_acc = Pin(Pout>0); % power in when accelerating
-Pout_acc = Pout(Pout>0); % power out when accelerating
-
-ds = [pLdot; pMdot; d_refdot; ddot; Pin];
-ext = [vref,Pin_acc,Pout_acc];
-
-end
+% %% Part 3
+% function [ds, ext] = lab5_eqns(t,s)
+% global Rw Lw Tm M btau R Gr Cr Cd rho Af Uin g vref dref kp ki
+% %Extract the state variables
+% pL = s(1);
+% pM = s(2);
+% dref= s(3);
+% dact= s(4);
+% Energyin = s(5); % energy in
+% 
+% % Approximation for signum function (From Part 1)
+% sgn_approx = pM / (abs(pM) + 1e-5);
+% 
+% vref = LA92Oracle(t);
+% 
+% % Input Velocity (given) 
+% Uin = kp*(vref-pM/M) + ki*(dref-dact);
+% 
+% % Equations of Motion (EOM) (lab 5)
+% pLdot = Uin - (pL*Rw)/Lw - (Gr*pM*Tm)/(R*M);
+% pMdot = (Gr/R)*((Tm*pL/Lw) - (Gr/R)*(pM*btau/M)) - M*g*Cr*sgn_approx - 0.5*rho*Af*Cd*(pM/M)*(pM/M); %sachi adding gr/r 
+% d_refdot = vref;
+% ddot = pM/M;
+% 
+% Pin = (pL/Lw)*Uin; %power in = flow in * effort in
+% Pout = pMdot*ddot; %power out = effort out * flow out
+% 
+% Pin_acc = Pin(Pout>0); % power in when accelerating
+% Pout_acc = Pout(Pout>0); % power out when accelerating
+% 
+% ds = [pLdot; pMdot; d_refdot; ddot; Pin];
+% ext = [vref,Pin_acc,Pout_acc];
+% 
+% end
